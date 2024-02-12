@@ -1,0 +1,21 @@
+.MyButton {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #1A1A1A;
+    justify-content: center;
+}
+
+.MyButton button {
+    color: #0CA789;
+    background-color: #1A1A1A;
+    margin: 20px;
+    padding: 13px; /* Увеличение в 2 раза */
+    border: 2px solid #0CA789;
+    border-radius: 5px;
+    font-size: 1.3em; /* Увеличение в 2 раза */
+}
+
+.MyButton button.active {
+    color: #1A1A1A;
+    background-color: #0CA789;
+}

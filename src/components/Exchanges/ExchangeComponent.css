@@ -1,0 +1,23 @@
+.exchange {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #0CA789;
+
+    background-color: #1A1A1A;
+
+
+}
+
+.exchange_elements {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 10px;
+    color: #0CA789;
+}
+.buy{
+    color: #0CA789;
+}
+.sell{
+    color: #F24726;
+}
