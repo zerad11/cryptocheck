@@ -65,13 +65,28 @@ app.get('/garantex/:ticket', async (req, res) => {
     const response = await axios.get(`https://garantex.org/api/v2/depth?market=${ticket}`);
     const data = response.data;
     
-    const asksPrice = data.asks[0].price;
-    const bidsPrice = data.bids[0].price;
+    const bestAsk = data.asks[0].price;
+    const bestBid = data.bids[0].price;
     
-    res.json({ asksPrice, bidsPrice });
+    res.json({ bestBid, bestAsk });
   } catch (error) {
     console.error(error);
     res.status(500).send('Произошла ошибка при получении данных с Garantex API');
+  }
+});
+
+app.get('/bybit/:ticket', async (req, res) => {
+  const ticket = req.params.ticket.toUpperCase(); // Преобразование параметра в верхний регистр
+
+  try {
+    const response = await axios.get(`https://api.bybit.com/spot/v3/public/quote/depth?symbol=${ticket}&limit=2`);
+    const bestAsk = response.data.result.asks[0][0];
+    const bestBid = response.data.result.bids[0][0];
+    
+    res.json({ bestBid, bestAsk });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Произошла ошибка при получении данных с Bybit API');
   }
 });
 

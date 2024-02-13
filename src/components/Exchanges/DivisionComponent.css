@@ -1,0 +1,25 @@
+.Division {
+    display: flex;
+    flex-direction: row;
+}
+
+.Division_elements{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 10px;
+    color: #0CA789;
+    width: 150px;
+
+}
+
+input{
+    background-color: #0CA789 ;
+    border: 1px solid #1A1A1A;    
+    border-radius: 50px;
+    height: 60px;
+    color: #1A1A1A;
+    text-align: center;
+    margin-top: 5px;
+
+}

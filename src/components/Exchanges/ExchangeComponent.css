@@ -1,8 +1,8 @@
 .exchange {
     display: flex;
     flex-direction: row;
+    height: 75px;
     border-bottom: 1px solid #0CA789;
-
     background-color: #1A1A1A;
 
 
@@ -14,10 +14,15 @@
     margin: 10px;
     padding: 10px;
     color: #0CA789;
+    width: 150px;
 }
 .buy{
     color: #0CA789;
 }
 .sell{
     color: #F24726;
+}
+
+.name{
+    width: 100px;
 }
