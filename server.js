@@ -59,19 +59,29 @@ app.get('/okx/:ticket', async (req, res) => {
 });
 
 app.get('/garantex/:ticket', async (req, res) => {
-  const ticket = req.params.ticket; // Параметр остается исходным
+  const ticket = req.params.ticket; 
 
   try {
     const response = await axios.get(`https://garantex.org/api/v2/depth?market=${ticket}`);
     const data = response.data;
     
-    const bestAsk = data.asks[0].price;
-    const bestBid = data.bids[0].price;
     
-    res.json({ bestBid, bestAsk });
+    const asks = data.asks.slice(0, 50).map(item => ({ price: (item.amount / item.volume).toFixed(2), volume: item.volume, amount: item.amount }));
+    const bids = data.bids.slice(0, 50).map(item => ({ price: (item.amount / item.volume).toFixed(2), volume: item.volume, amount: item.amount }));
+    const bestAsk = parseFloat(asks[0].price).toFixed(2);
+    const bestBid = parseFloat(bids[0].price).toFixed(2);
+
+    const responseData = {
+      bestAsk,
+      bestBid,
+      asks,
+      bids
+    };
+
+    res.json(responseData);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Произошла ошибка при получении данных с Garantex API');
+    res.status(500).send('An error occurred while fetching data from the Garantex API');
   }
 });
 

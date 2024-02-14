@@ -6,6 +6,8 @@ import DivisionComponent from './DivisionComponent';
 const ExchangeComponent = ({ exchange, tiket }) => {
     const [bestBid, setBestBid] = useState(null);
     const [bestAsk, setBestAsk] = useState(null);
+    const [asks, setAsks] = useState([]);
+    const [bids, setBids] = useState([]);
     const [currentTiket, setCurrentTiket] = useState(tiket);
     const [inputValue, setInputValue] = useState('');
 
@@ -16,13 +18,16 @@ const ExchangeComponent = ({ exchange, tiket }) => {
             
             setBestBid(data.bestBid);
             setBestAsk(data.bestAsk);
+            setAsks(data.asks);
+            setBids(data.bids);
         } catch (error) {
             console.error('Error fetching data:', error);
             setBestBid("-");
             setBestAsk("-");
+            setAsks([]);
+            setBids([]);
         }
     };
-
     useEffect(() => {
         fetchData(); 
         const interval = setInterval(() => {
@@ -45,7 +50,7 @@ const ExchangeComponent = ({ exchange, tiket }) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
             />
-            <DivisionComponent inputValue={inputValue} bestBid={bestBid} bestAsk={bestAsk} />
+            <DivisionComponent inputValue={inputValue} bestBid={bestBid} bestAsk={bestAsk} exchange={exchange} asks={asks} bids={bids} />
         </div>
     );
 };

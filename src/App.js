@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import MyButton from "./components/button/MyButton";
 import './App.css'
 import ExchangeComponent from "./components/Exchanges/ExchangeComponent";
-import SortableTable from "./components/sort/Sort";
 
 function App() {
   const [tiket, setTiket] = useState("btcusdt");
