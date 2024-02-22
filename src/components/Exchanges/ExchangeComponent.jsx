@@ -28,17 +28,20 @@ const ExchangeComponent = ({ exchange, tiket }) => {
             setBids([]);
         }
     };
+
     useEffect(() => {
-        fetchData(); 
-        const interval = setInterval(() => {
-            fetchData();
-        }, 2000);
-        return () => clearInterval(interval); 
-    }, [exchange, currentTiket]);
+        const fetchDataAndInterval = async () => {
+            await fetchData();
+            const interval = setInterval(fetchData, 2000);
+            return () => clearInterval(interval);
+        };
+
+        fetchDataAndInterval();
+
+    }, [exchange, currentTiket, fetchData]);
 
     useEffect(() => {
         setCurrentTiket(tiket);
-        fetchData();
     }, [tiket]);
 
     return (
