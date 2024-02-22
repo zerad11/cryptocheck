@@ -1,0 +1,30 @@
+div{
+    color: #0CA789;
+}
+.header{
+  display: flex;
+  flex-direction: row;
+  height: 75px;
+  border-bottom: 1px solid #0CA789;
+  background-color: #1A1A1A;
+
+}
+.exchanges{
+  margin-left: 10px;
+    width: 120px;
+}
+.price{
+  width: 175px;
+  margin-left: 17px;
+
+}
+.usdt{
+  width: 170px;
+  margin-left: 7px;
+
+}
+.crypto{
+  width: 170px;
+  margin-left: 17px;
+
+}

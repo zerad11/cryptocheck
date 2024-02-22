@@ -8,8 +8,11 @@ const DivisionComponent = ({ inputValue, bestBid, bestAsk, asks, bids, exchange 
     const [resultAsk, setResultAsk] = useState(null);
 
     const exchangeCommissions = {
-        garantex: 1.002004008,
-        okx: 1.50,
+        garantex: 1.002004008   ,
+        okx: 1.001,
+        bybit: 1.001,
+        nobitex: 1.002,
+        kucoin: 1.001
         // Добавьте другие биржи и их комиссии здесь
     };
 

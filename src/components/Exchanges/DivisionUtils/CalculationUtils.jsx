@@ -6,7 +6,7 @@ const calculateResult = (inputValue, orders, commission, isAsks) => {
         const order = orders[i];
         const price = parseFloat(order.price);
         const volume = parseFloat(order.volume);
-        const amount = parseFloat(order.amount);
+        const amount = price * volume;
 
         if (totalAmount + amount <= inputValue) {
             totalAmount += amount;

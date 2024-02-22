@@ -10,53 +10,87 @@ app.get('/', (req, res) => {
 });
 
 app.get('/nobitex/:ticket', async (req, res) => {
-  const ticket = req.params.ticket.toUpperCase(); // Преобразование параметра в верхний регистр
+  const ticket = req.params.ticket.toUpperCase();
 
   try {
     const response = await axios.get(`https://api.nobitex.ir/v2/orderbook/${ticket}`);
     
     const bestBid = response.data.bids[0][0];
     const bestAsk = response.data.asks[0][0];
-    
-    res.json({ bestBid, bestAsk });
+
+    const asks = response.data.asks.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+    const bids = response.data.bids.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+
+    const responseData = {
+      bestBid,
+      bestAsk,
+      asks,
+      bids
+    };
+
+    res.json(responseData);
   } catch (error) {
     console.error(error);
     res.status(500).send('Произошла ошибка при получении данных');
   }
 });
 
+
 app.get('/kucoin/:ticket', async (req, res) => {
-  const ticket = req.params.ticket.toUpperCase().replace('USDT', '-USDT'); // Преобразование параметра в верхний регистр и замена USDT на -USDT
+  const ticket = req.params.ticket.toUpperCase().replace('USDT', '-USDT');
 
   try {
-    const response = await axios.get(`https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=${ticket}`);
-    
-    const bestBid = response.data.data.bestBid;
-    const bestAsk = response.data.data.bestAsk;
-    
-    res.json({ bestBid, bestAsk });
+    const response = await axios.get(`https://api.kucoin.com/api/v1/market/orderbook/level2_100?symbol=${ticket}`);
+    const data = response.data.data;
+
+    const asks = data.asks.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+    const bids = data.bids.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+
+    const bestAsk = asks[0].price;
+    const bestBid = bids[0].price;
+
+    const responseData = {
+      bestAsk,
+      bestBid,
+      asks,
+      bids
+    };
+
+    res.json(responseData);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Произошла ошибка при получении данных с Kucoin API');
+    res.status(500).send('An error occurred while fetching data from the KuCoin API');
   }
 });
 
+
 app.get('/okx/:ticket', async (req, res) => {
-  const ticket = req.params.ticket.toUpperCase().replace('USDT', '-USDT'); // Преобразование параметра в верхний регистр и замена USDT на -USDT
+  const ticket = req.params.ticket.toUpperCase().replace('USDT', '-USDT');
 
   try {
-    const response = await axios.get(`https://www.okx.com/api/v5/market/books?instId=${ticket}`);
+    const response = await axios.get(`https://www.okx.com/api/v5/market/books?sz=50&instId=${ticket}`);
     
     const data = response.data.data[0];
-    const bestBid = data.bids[0][0];
-    const bestAsk = data.asks[0][0];
-    
-    res.json({ bestBid, bestAsk });
+    const asks = data.asks.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+    const bids = data.bids.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+
+    const bestAsk = asks[0].price;
+    const bestBid = bids[0].price;
+
+    const responseData = {
+      bestAsk,
+      bestBid,
+      asks,
+      bids
+    };
+
+    res.json(responseData);
   } catch (error) {
     console.error(error);
     res.status(500).send('Произошла ошибка при получении данных с Okx API');
   }
 });
+
 
 app.get('/garantex/:ticket', async (req, res) => {
   const ticket = req.params.ticket; 
@@ -66,8 +100,8 @@ app.get('/garantex/:ticket', async (req, res) => {
     const data = response.data;
     
     
-    const asks = data.asks.slice(0, 50).map(item => ({ price: (item.amount / item.volume).toFixed(2), volume: item.volume, amount: item.amount }));
-    const bids = data.bids.slice(0, 50).map(item => ({ price: (item.amount / item.volume).toFixed(2), volume: item.volume, amount: item.amount }));
+    const asks = data.asks.slice(0, 50).map(item => ({ price: (item.amount / item.volume).toFixed(2), volume: item.volume}));
+    const bids = data.bids.slice(0, 50).map(item => ({ price: (item.amount / item.volume).toFixed(2), volume: item.volume}));
     const bestAsk = parseFloat(asks[0].price).toFixed(2);
     const bestBid = parseFloat(bids[0].price).toFixed(2);
 
@@ -86,19 +120,31 @@ app.get('/garantex/:ticket', async (req, res) => {
 });
 
 app.get('/bybit/:ticket', async (req, res) => {
-  const ticket = req.params.ticket.toUpperCase(); // Преобразование параметра в верхний регистр
+  const ticket = req.params.ticket.toUpperCase();
 
   try {
-    const response = await axios.get(`https://api.bybit.com/spot/v3/public/quote/depth?symbol=${ticket}&limit=2`);
-    const bestAsk = response.data.result.asks[0][0];
-    const bestBid = response.data.result.bids[0][0];
+    const response = await axios.get(`https://api.bybit.com/spot/v3/public/quote/depth?symbol=${ticket}&limit=50`);
     
-    res.json({ bestBid, bestAsk });
+    const bestBid = response.data.result.bids[0][0];
+    const bestAsk = response.data.result.asks[0][0];
+
+    const asks = response.data.result.asks.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+    const bids = response.data.result.bids.slice(0, 50).map(item => ({ price: item[0], volume: item[1] }));
+
+    const responseData = {
+      bestBid,
+      bestAsk,
+      asks,
+      bids
+    };
+
+    res.json(responseData);
   } catch (error) {
     console.error(error);
     res.status(500).send('Произошла ошибка при получении данных с Bybit API');
   }
 });
+
 
 
 app.listen(port, () => {
