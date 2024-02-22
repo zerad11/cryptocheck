@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './ExchangeComponent.css';
 import DivisionComponent from './DivisionComponent';
@@ -11,7 +11,7 @@ const ExchangeComponent = ({ exchange, tiket }) => {
     const [currentTiket, setCurrentTiket] = useState(tiket);
     const [inputValue, setInputValue] = useState('');
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const response = await axios.get(`http://localhost:5000/${exchange}/${currentTiket}`);
             const data = response.data;
@@ -27,7 +27,7 @@ const ExchangeComponent = ({ exchange, tiket }) => {
             setAsks([]);
             setBids([]);
         }
-    };
+    }, [exchange, currentTiket]);
 
     useEffect(() => {
         const fetchDataAndInterval = async () => {
