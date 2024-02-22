@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './DivisionComponent.css';
 import ResultComponent from './DivisionUtils/ResultComponent';
 import { calculateResult } from './DivisionUtils/CalculationUtils';
@@ -7,14 +7,14 @@ const DivisionComponent = ({ inputValue, bestBid, bestAsk, asks, bids, exchange 
     const [resultBid, setResultBid] = useState(null);
     const [resultAsk, setResultAsk] = useState(null);
 
-    const exchangeCommissions = {
-        garantex: 1.002004008   ,
+    const exchangeCommissions = useMemo(() => ({
+        garantex: 1.002004008,
         okx: 1.001,
         bybit: 1.001,
         nobitex: 1.002,
         kucoin: 1.001
         // Добавьте другие биржи и их комиссии здесь
-    };
+    }), []); // Пустой массив зависимостей для инициализации один раз
 
     useEffect(() => {
         if (bestBid !== null && bestAsk !== null) {
