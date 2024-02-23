@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start-server": "node start-server.js",
-    "build-and-start": "npm run build && npm run start-server && npm start"
+    "build-and-start": "npm run build && npm start && npm run start-server"
   },
   "eslintConfig": {
     "extends": [
