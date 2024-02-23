@@ -8,11 +8,11 @@ const ExchangeComponent = ({ exchange, tiket }) => {
     const [bestAsk, setBestAsk] = useState(null);
     const [asks, setAsks] = useState([]);
     const [bids, setBids] = useState([]);
-    const [currentTiket, setCurrentTiket] = useState(tiket);
     const [inputValue, setInputValue] = useState('');
 
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async (currentTiket) => {
         try {
+            console.log(currentTiket);
             const response = await axios.get(`http://localhost:5000/${exchange}/${currentTiket}`);
             const data = response.data;
             
@@ -27,22 +27,13 @@ const ExchangeComponent = ({ exchange, tiket }) => {
             setAsks([]);
             setBids([]);
         }
-    }, [exchange, currentTiket]);
+    }, [exchange]);
 
     useEffect(() => {
-        const fetchDataAndInterval = async () => {
-            await fetchData();
-            const interval = setInterval(fetchData, 2000);
-            return () => clearInterval(interval);
-        };
-
-        fetchDataAndInterval();
-
-    }, [exchange, currentTiket, fetchData]);
-
-    useEffect(() => {
-        setCurrentTiket(tiket);
-    }, [tiket]);
+        fetchData(tiket);
+        const interval = setInterval(() => fetchData(tiket), 2000);
+        return () => clearInterval(interval);
+    }, [exchange, tiket, fetchData]);
 
     return (
         <div className='exchange'>
