@@ -3,12 +3,44 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 const port = 5000;
+const fs = require('fs');
+const bodyParser = require('body-parser');
 app.use(cors());
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('Привет, мир!');
 });
 
+
+app.post('/updateAPIs', (req, res) => {
+  const newData = req.body;
+
+  fs.readFile('APIs.json', 'utf8', (err, data) => {
+    if (err) {
+      res.status(500).send('Error reading APIs.json file');
+    } else {
+      let existingData = JSON.parse(data);
+
+      Object.keys(newData).forEach(key => {
+        if (newData[key] !== '') {
+          existingData[key] = newData[key];
+        }
+      });
+
+      fs.writeFile('APIs.json', JSON.stringify(existingData), (err) => {
+        if (err) {
+          res.status(500).send('Error updating APIs.json file');
+        } else {
+          res.status(200).send('APIs.json file updated successfully');
+        }
+      });
+    }
+  });
+});
+
+
+// nobitex
 app.get('/nobitex/:ticket', async (req, res) => {
   const ticket = req.params.ticket.toUpperCase();
 
@@ -35,7 +67,7 @@ app.get('/nobitex/:ticket', async (req, res) => {
   }
 });
 
-
+// kukoin
 app.get('/kucoin/:ticket', async (req, res) => {
   const ticket = req.params.ticket.toUpperCase().replace('USDT', '-USDT');
 
@@ -63,7 +95,7 @@ app.get('/kucoin/:ticket', async (req, res) => {
   }
 });
 
-
+// okx
 app.get('/okx/:ticket', async (req, res) => {
   const ticket = req.params.ticket.toUpperCase().replace('USDT', '-USDT');
 
@@ -91,7 +123,7 @@ app.get('/okx/:ticket', async (req, res) => {
   }
 });
 
-
+// garantex
 app.get('/garantex/:ticket', async (req, res) => {
   const ticket = req.params.ticket; 
 
@@ -119,6 +151,7 @@ app.get('/garantex/:ticket', async (req, res) => {
   }
 });
 
+// bybit
 app.get('/bybit/:ticket', async (req, res) => {
   const ticket = req.params.ticket.toUpperCase();
 
@@ -150,3 +183,4 @@ app.get('/bybit/:ticket', async (req, res) => {
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
 });
+

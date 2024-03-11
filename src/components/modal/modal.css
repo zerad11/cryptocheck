@@ -1,0 +1,66 @@
+.modal{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+.modalInput,.modalButton{
+    width: 100%;
+}
+.modalParagraph, .modalButton{
+    font-weight: 550;
+}
+.modal.active{
+    opacity: 1;
+    pointer-events: all;
+}
+.modalESC{
+    background-color: #F24726;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    border: none;
+    position: fixed;
+    flex-direction: column; /* Опционально: расположение элементов в столбец */
+    align-items: flex-end;
+    justify-content: center;
+    display: flex;
+    right: 20px;
+}
+.modal__Button {
+    justify-content: center;
+    color: #0CA789;
+    background-color: #1A1A1A;
+    height: 20px;
+    padding: 13px; /* Увеличение в 2 раза */
+    border: 2px solid #0CA789;
+    border-radius: 5px;
+    top: 27px;
+    position: fixed;
+    right: 20px; /* Расположение справа с отступом 20px от правого края */
+    display: flex;
+    flex-direction: column; /* Опционально: расположение элементов в столбец */
+    align-items: flex-end; /* Опционально: выравнивание элементов по правому краю */
+}
+
+.modal__content{
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #242424;
+    width: 400px;
+    height: 600px;
+    transform: scale(0.5);
+    transition: 0.4s all;
+}
+
+.modal__content.active{
+    transform: scale(1);
+}

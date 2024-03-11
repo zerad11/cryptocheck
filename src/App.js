@@ -3,23 +3,29 @@ import MyButton from "./components/button/MyButton";
 import './App.css'
 import ExchangeComponent from "./components/Exchanges/ExchangeComponent";
 import Header from "./components/Header";
+import Modal from "./components/modal/modal";
+import ModalContent from "./components/modal/ModalContent"
+
+const exchanges = ['kucoin', 'okx', 'nobitex', 'bybit', 'garantex'];
 
 function App() {
   const [tiket, setTiket] = useState("btcusdt");
-
+  const [modalActive, setModalActive] = useState(false)
   const handleTiketChange = (newTiket) => {
     setTiket(newTiket);
   };
 
   return (
     <div className="App">
+      <Modal active={modalActive} setActive={setModalActive}>
+        <ModalContent exchanges={exchanges} />
+      </Modal>
+
       <MyButton onTiketChange={handleTiketChange} />
       <Header />
-      <ExchangeComponent exchange="kucoin" tiket={tiket} />
-      <ExchangeComponent exchange="okx" tiket={tiket} />
-      <ExchangeComponent exchange="nobitex" tiket={tiket} />
-      <ExchangeComponent exchange="bybit" tiket={tiket} />
-      <ExchangeComponent exchange="garantex" tiket={tiket} />
+      {exchanges.map((exchange) => (
+        <ExchangeComponent key={exchange} exchange={exchange} tiket={tiket} />
+      ))}
     </div>
   );
 }
