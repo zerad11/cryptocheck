@@ -12,6 +12,7 @@
     pointer-events: none;
     transition: 0.5s;
 }
+<<<<<<< HEAD
 .modalInput,.modalButton{
     width: 100%;
 }
@@ -51,6 +52,13 @@
     align-items: flex-end; /* Опционально: выравнивание элементов по правому краю */
 }
 
+=======
+.modal.active{
+    opacity: 1;
+    pointer-events: all;
+
+}
+>>>>>>> c93ddffa83646d7cdf8df2bc93ac5609f039f85f
 .modal__content{
     padding: 20px;
     border-radius: 12px;

@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 app.post('/updateAPIs', (req, res) => {
   const newData = req.body;
 
+<<<<<<< HEAD
   fs.readFile('APIs.json', 'utf8', (err, data) => {
     if (err) {
       res.status(500).send('Error reading APIs.json file');
@@ -36,6 +37,14 @@ app.post('/updateAPIs', (req, res) => {
         }
       });
     }
+=======
+  fs.writeFile('APIs.json', JSON.stringify(newData), (err) => {
+      if (err) {
+          res.status(500).send('Error updating APIs.json file');
+      } else {
+          res.status(200).send('APIs.json file updated successfully');
+      }
+>>>>>>> c93ddffa83646d7cdf8df2bc93ac5609f039f85f
   });
 });
 
